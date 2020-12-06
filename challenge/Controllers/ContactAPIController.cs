@@ -17,6 +17,7 @@ namespace challenge.Controllers
         private ContactDBConext db = new ContactDBConext();
 
         // GET api/ContactAPI
+        [HttpGet]
         public IEnumerable<Contact> GetContacts()
         {
             HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", "*"); 
@@ -24,6 +25,7 @@ namespace challenge.Controllers
         }
 
         // GET api/ContactAPI/5
+        [HttpGet]
         public Contact GetContact(string id)
         {
             Contact contact = db.Contaccts.Find(id);
@@ -37,6 +39,7 @@ namespace challenge.Controllers
         }
 
         // PUT api/ContactAPI/5
+        [HttpPut]
         public HttpResponseMessage PutContact(string id, Contact contact)
         {
             HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", "*"); 
@@ -71,7 +74,6 @@ namespace challenge.Controllers
             HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", "*");
             HttpContext.Current.Response.AppendHeader("Access-Control-Allow-Methods", "DELETE, PUT, GET, POST, OPTIONS");
             HttpContext.Current.Response.AppendHeader("Access-Control-Allow-Headers", "X-Requested-With, Accept, Access-Control-Allow-Origin, Content-Type");
-            
 
             if (ModelState.IsValid)
             {
