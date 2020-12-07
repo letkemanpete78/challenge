@@ -8,8 +8,11 @@ namespace challenge.Models
         //HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", "*"); 
 
         private String id;
-        Contact() {
+        public Contact() {
             id = Guid.NewGuid().ToString();
+        }
+        public String newID() { 
+            return Guid.NewGuid().ToString();
         }
         public String ID {
             get
@@ -31,6 +34,6 @@ namespace challenge.Models
     }
 
     public class ContactDBConext : DbContext {
-        public DbSet<Contact> Contaccts {get;set;}
+        public DbSet<Contact> Contacts {get;set;}
     }
 }

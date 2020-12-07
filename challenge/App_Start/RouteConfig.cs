@@ -13,11 +13,19 @@ namespace challenge
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            //routes.MapRoute(
+            //    name: "LoadApiData",
+            //    url: "api/load",
+            //    defaults: new { controller = "Contact", action = "insertFromExcel" }
+            //);
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+
         }
     }
 }

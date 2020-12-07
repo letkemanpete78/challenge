@@ -10,12 +10,20 @@ namespace challenge
         public static void Register(HttpConfiguration config)
         {
             config.Formatters.Clear();
-            config.Formatters.Add(new System.Net.Http.Formatting.JsonMediaTypeFormatter()); 
+            config.Formatters.Add(new System.Net.Http.Formatting.JsonMediaTypeFormatter());
+
+            //config.Routes.MapHttpRoute(
+            //    name: "LoadApi",
+            //    routeTemplate: "api/load",
+            //    defaults: new { controller = "Contacts", action = "insertFromExcel" }
+            //);
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+            
         }
     }
 }

@@ -9,26 +9,31 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using challenge.Models;
+using System.Data.SqlClient;
+using AttributeRouting.Web.Mvc;
 
 namespace challenge.Controllers
 {
     public class ContactAPIController : ApiController
     {
         private ContactDBConext db = new ContactDBConext();
-
+        
         // GET api/ContactAPI
-        [HttpGet]
         public IEnumerable<Contact> GetContacts()
         {
-            HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", "*"); 
-            return db.Contaccts.AsEnumerable();
+            HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            
+            return db.Contacts.AsEnumerable();
         }
 
         // GET api/ContactAPI/5
-        [HttpGet]
         public Contact GetContact(string id)
         {
-            Contact contact = db.Contaccts.Find(id);
+            if (id.ToLower() == "insertfromexcel") {
+                insertFromExcel();
+                return new Contact();
+            }
+            Contact contact = db.Contacts.Find(id);
             if (contact == null)
             {
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
@@ -39,7 +44,6 @@ namespace challenge.Controllers
         }
 
         // PUT api/ContactAPI/5
-        [HttpPut]
         public HttpResponseMessage PutContact(string id, Contact contact)
         {
             HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", "*"); 
@@ -77,7 +81,7 @@ namespace challenge.Controllers
 
             if (ModelState.IsValid)
             {
-                db.Contaccts.Add(contact);
+                db.Contacts.Add(contact);
                 db.SaveChanges();
 
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, contact);
@@ -97,13 +101,13 @@ namespace challenge.Controllers
             HttpContext.Current.Response.AppendHeader("Access-Control-Allow-Methods", "DELETE, PUT, GET, POST, OPTIONS");
             HttpContext.Current.Response.AppendHeader("Access-Control-Allow-Headers", "X-Requested-With, Accept, Access-Control-Allow-Origin, Content-Type");
 
-            Contact contact = db.Contaccts.Find(id);
+            Contact contact = db.Contacts.Find(id);
             if (contact == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
 
-            db.Contaccts.Remove(contact);
+            db.Contacts.Remove(contact);
 
             try
             {
@@ -114,6 +118,55 @@ namespace challenge.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
             }
             return Request.CreateResponse(HttpStatusCode.OK, contact);
+        }
+
+        public HttpResponseMessage insertFromExcel()
+        {
+            string excelConStr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + System.Web.HttpContext.Current.Server.MapPath("~/app_data/mock_data.xlsx") + "';Extended Properties=\"Excel 12.0 Xml;HDR=NO;\"";
+
+            using (System.Data.OleDb.OleDbConnection conn = new System.Data.OleDb.OleDbConnection(excelConStr))
+            {
+                conn.Open();
+                System.Data.OleDb.OleDbCommand command = new System.Data.OleDb.OleDbCommand("Select * from [data$]", conn);
+                System.Data.OleDb.OleDbDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    string strcon = System.Configuration.ConfigurationManager.ConnectionStrings["ContactDBConext"].ConnectionString;  
+                    SqlConnection con = new SqlConnection(strcon);
+                    con.Open();
+
+                    while (reader.Read())
+                    {
+                        Contact contact = new Contact();
+                        contact.FirstName = reader[0].ToString();
+                        contact.LastName = reader[1].ToString();
+                        contact.Email = reader[2].ToString();
+                        db.Contacts.Add(contact);
+                        db.SaveChanges();
+                    }
+                    con.Close();
+                    RemoveHeaderRow();
+                }
+            }
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        private void RemoveHeaderRow()
+        {
+            Contact contact = db.Contacts.Where(s => s.FirstName == "first_name" && s.LastName == "last_name" && s.Email == "email").FirstOrDefault<Contact>();
+
+            if (contact != null)
+            {
+                db.Contacts.Remove(contact);
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    Console.WriteLine("Error: ", ex.Message);
+                }
+            }
         }
 
         protected override void Dispose(bool disposing)
