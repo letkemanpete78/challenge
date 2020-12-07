@@ -39,6 +39,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AttributeRouting, Version=3.4.2.0, Culture=neutral, PublicKeyToken=c10f85d521a011a9, processorArchitecture=MSIL">
+      <HintPath>..\packages\AttributeRouting.Core.3.4.2\lib\net40\AttributeRouting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AttributeRouting.Web, Version=3.4.2.0, Culture=neutral, PublicKeyToken=c10f85d521a011a9, processorArchitecture=MSIL">
+      <HintPath>..\packages\AttributeRouting.Core.Web.3.4.2\lib\net40\AttributeRouting.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AttributeRouting.Web.Mvc, Version=3.4.2.0, Culture=neutral, PublicKeyToken=c10f85d521a011a9, processorArchitecture=MSIL">
+      <HintPath>..\packages\AttributeRouting.3.4.2\lib\net40\AttributeRouting.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -112,6 +124,10 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="WebActivator, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivator.1.0.0.0\lib\WebActivator.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.3.0\lib\WebGrease.dll</HintPath>
@@ -122,11 +138,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\TextFile1.txt" />
+    <Content Include="Content\favicon.ico" />
+    <Content Include="Content\index.html" />
+    <Content Include="Content\logo192.png" />
+    <Content Include="Content\logo512.png" />
+    <Content Include="Content\robots.txt" />
+    <Content Include="Content\static\css\main.3f580395.chunk.css" />
+    <Content Include="Content\static\js\2.02fbb6e9.chunk.js" />
+    <Content Include="Content\static\js\2.02fbb6e9.chunk.js.LICENSE.txt" />
+    <Content Include="Content\static\js\main.1ddcd4d8.chunk.js" />
+    <Content Include="Content\static\js\runtime-main.09d2f103.js" />
+    <Compile Include="App_Start\AttributeRouting.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ContactAPIController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -190,22 +219,31 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <None Include="Scripts\jquery-1.8.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.8.2.js" />
-    <Content Include="Scripts\jquery-1.8.2.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery-ui-1.8.24.js" />
-    <Content Include="Scripts\jquery-ui-1.8.24.min.js" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\knockout-2.2.0.debug.js" />
-    <Content Include="Scripts\knockout-2.2.0.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\_references.js" />
+    <Content Include="App_Data\MOCK_DATA.xlsx" />
+    <Content Include="App_Data\.bacpac" />
+    <Content Include=".bacpac" />
+    <Content Include="Content\static\css\main.3f580395.chunk.css.map" />
+    <Content Include="Content\static\js\2.02fbb6e9.chunk.js.map" />
+    <Content Include="Content\static\js\main.1ddcd4d8.chunk.js.map" />
+    <Content Include="Content\static\js\runtime-main.09d2f103.js.map" />
+    <Content Include="Content\asset-manifest.json" />
+    <Content Include="Content\manifest.json" />
+    <None Include="Models\Scripts\jquery-1.8.2.intellisense.js" />
+    <Content Include="Models\Scripts\jquery-1.8.2.js" />
+    <Content Include="Models\Scripts\jquery-1.8.2.min.js" />
+    <None Include="Models\Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Models\Scripts\jquery-ui-1.8.24.js" />
+    <Content Include="Models\Scripts\jquery-ui-1.8.24.min.js" />
+    <Content Include="Models\Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Models\Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Models\Scripts\jquery.validate.js" />
+    <Content Include="Models\Scripts\jquery.validate.min.js" />
+    <Content Include="Models\Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Models\Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Models\Scripts\knockout-2.2.0.debug.js" />
+    <Content Include="Models\Scripts\knockout-2.2.0.js" />
+    <Content Include="Models\Scripts\modernizr-2.6.2.js" />
+    <Content Include="Models\Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -217,12 +255,16 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="App_Code\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
